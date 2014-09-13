@@ -5,6 +5,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.content.ContentResolver;
@@ -16,6 +20,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.view.View.OnClickListener;
@@ -103,9 +108,25 @@ public class MyActivity extends Activity {
 
             System.out.println(imageUri);
 
-            getContentResolver().notifyChange(selectedImage, null);
-
             ImageView imageView = (ImageView)findViewById(R.id.image_camera);
+
+            imageView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    float xc = event.getX(), yc = event.getY();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MyActivity.this);
+                    builder.setTitle("Touched the image");
+                    builder.setMessage("X: " + xc + "\nY: " + yc);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.create().show();
+                    return true;
+                }
+            });
 
             ContentResolver cr = getContentResolver();
             Bitmap bitmap;
