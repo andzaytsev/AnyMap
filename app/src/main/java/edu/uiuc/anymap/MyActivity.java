@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.location.Location;
 import android.location.LocationManager;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -34,14 +35,19 @@ public class MyActivity extends Activity {
     private Uri imageUri;
     private static int TAKE_PICTURE = 1;
     private String logtag = "AnyMap";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("Created this shit!!!");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
         locationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
         locationListener = new MyLocationListener();
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        locationListener.locString = "Lat: " + location.getLatitude() +
+                "\nLng: " + location.getLongitude();
+        ;
+
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 500, 10, locationListener);
         Log.i("MyActivity", "teeheee");
@@ -53,7 +59,9 @@ public class MyActivity extends Activity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MyActivity.this);
         builder.setTitle("My location");
-        builder.setMessage(locationListener.locString + " und das ist gut!");
+        String locStr = locationListener.locString;
+        builder.setMessage(locStr + " und das ist " +
+                (locStr == null ? "nicht " : "") + "gut!");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
