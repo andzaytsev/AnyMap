@@ -26,7 +26,6 @@ import java.lang.String;
 
 import java.io.File;
 
-
 public class MyActivity extends Activity {
 
     private MyLocationListener locationListener;
@@ -91,12 +90,20 @@ public class MyActivity extends Activity {
             ContentResolver cr = getContentResolver();
             Bitmap bitmap;
 
+            //Try saving the image
             try{
                 bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage);
                 imageView.setImageBitmap(bitmap);
                 Toast.makeText(MyActivity.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
             } catch(Exception e) {
                 Log.e(logtag,e.toString());
+            }
+
+            //Try opening the image
+            try{
+
+            }catch(Exception e) {
+
             }
         }
     }
