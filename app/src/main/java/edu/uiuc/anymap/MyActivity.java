@@ -1,6 +1,10 @@
 package edu.uiuc.anymap;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.location.LocationManager;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,18 +28,40 @@ import java.io.File;
 
 public class MyActivity extends Activity {
 
+    private MyLocationListener locationListener;
+    private LocationManager locationManager;
+
     private Uri imageUri;
     private static int TAKE_PICTURE = 1;
     private String logtag = "AnyMap";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println("Created this shit!!!");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
+        locationManager = (LocationManager)
+                getSystemService(Context.LOCATION_SERVICE);
+        locationListener = new MyLocationListener();
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                500, 10, locationListener);
         Log.i("MyActivity", "teeheee");
         Button cameraButton = (Button)findViewById(R.id.button_camera);
         cameraButton.setOnClickListener(cameraListener);
     }
 
+    public void showLocation(View view) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MyActivity.this);
+        builder.setTitle("My location");
+        builder.setMessage(locationListener.locString + " und das ist gut!");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.create().show();
+    }
     private OnClickListener cameraListener = new OnClickListener () {
         public void onClick(View v) {
             System.out.println("lala");
