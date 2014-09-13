@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -40,7 +37,6 @@ public class MyActivity extends Activity {
 
     private Uri imageUri;
     private static int TAKE_PICTURE = 1;
-    private String logtag = "AnyMap";
     private File photoFile;
 
     @Override
@@ -53,7 +49,6 @@ public class MyActivity extends Activity {
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         locationListener.locString = "Lat: " + location.getLatitude() +
                 "\nLng: " + location.getLongitude();
-        ;
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 500, 10, locationListener);
@@ -129,15 +124,14 @@ public class MyActivity extends Activity {
                 }
             });
 
-            ContentResolver cr = getContentResolver();
             Drawable[] drawables = new Drawable[2];
-            Bitmap bitmap;
+            LayerDrawable layerDrawable;
 
             //Try saving the image
             try{
                 drawables[0] = new BitmapDrawable(getResources(), photoFile.toString());
-
-                imageView.setImageDrawable(drawables[0]);
+                layerDrawable = new LayerDrawable(drawables);
+                imageView.setImageDrawable(layerDrawable);
                 Toast.makeText(MyActivity.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
             } catch(Exception e) {
                 System.out.println("Caught an exception saving an image!");
