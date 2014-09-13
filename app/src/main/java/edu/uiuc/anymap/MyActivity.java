@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
 import android.content.ContentResolver;
@@ -17,12 +18,15 @@ import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.lang.String;
 
 import java.io.File;
@@ -35,6 +39,7 @@ public class MyActivity extends Activity {
     private Uri imageUri;
     private static int TAKE_PICTURE = 1;
     private String logtag = "AnyMap";
+    private File photoFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +85,8 @@ public class MyActivity extends Activity {
 
     private void takePhoto(View v) {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
-        imageUri = Uri.fromFile(photo);
+        photoFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
+        imageUri = Uri.fromFile(photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, TAKE_PICTURE);
     }
@@ -92,28 +97,46 @@ public class MyActivity extends Activity {
 
         if(resultCode == Activity.RESULT_OK) {
             Uri selectedImage = imageUri;
+
+            System.out.println(imageUri);
+
             getContentResolver().notifyChange(selectedImage, null);
 
             ImageView imageView = (ImageView)findViewById(R.id.image_camera);
+            //WebView wv = (WebView) findViewById(R.id.image_camera);
+            //wv.getSettings().setBuiltInZoomControls(true);
+
             ContentResolver cr = getContentResolver();
             Bitmap bitmap;
 
             //Try saving the image
             try{
                 bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage);
-                imageView.setImageBitmap(bitmap);
+                System.out.println(photoFile);
+                imageView.setImageBitmap(loadImage(""+photoFile));
+                //wv.loadUrl(""+photoFile);
+                System.out.println("#2:" + loadImage(""+photoFile));
+                //imageView.setImageDrawable(R.drawable.ic_launcher);
                 Toast.makeText(MyActivity.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
             } catch(Exception e) {
-                Log.e(logtag,e.toString());
+                System.out.println("adfadfadfadfa");
             }
 
-            //Try opening the image
-            try{
-
-            }catch(Exception e) {
-
-            }
         }
+    }
+
+    private Bitmap loadImage(String imgPath) {
+        BitmapFactory.Options options;
+        try {
+            options = new BitmapFactory.Options();
+            options.inSampleSize = 2;
+            Bitmap bitmap = BitmapFactory.decodeFile(imgPath, options);
+            return bitmap;
+        } catch(Exception e) {
+            System.out.println("errorrrr");
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
