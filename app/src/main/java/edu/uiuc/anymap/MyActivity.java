@@ -9,7 +9,6 @@ import android.location.LocationManager;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.MailTo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,15 +16,12 @@ import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.lang.String;
 
 import java.io.File;
@@ -69,15 +65,22 @@ public class MyActivity extends Activity {
     }
     private OnClickListener cameraListener = new OnClickListener () {
         public void onClick(View v) {
-            System.out.println("lala");
             takePhoto(v);
+
+        }
+    };
+    private OnClickListener imageListener = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
 
         }
     };
 
     private void takePhoto(View v) {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        photoFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
+        File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"/");
+        directory.mkdirs();
+        photoFile = new File(directory, "picture.jpg");
         imageUri = Uri.fromFile(photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, TAKE_PICTURE);
@@ -95,8 +98,6 @@ public class MyActivity extends Activity {
             getContentResolver().notifyChange(selectedImage, null);
 
             ImageView imageView = (ImageView)findViewById(R.id.image_camera);
-            //WebView wv = (WebView) findViewById(R.id.image_camera);
-            //wv.getSettings().setBuiltInZoomControls(true);
 
             ContentResolver cr = getContentResolver();
             Bitmap bitmap;
@@ -104,11 +105,7 @@ public class MyActivity extends Activity {
             //Try saving the image
             try{
                 bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage);
-                System.out.println(photoFile);
                 imageView.setImageBitmap(loadImage(""+photoFile));
-                //wv.loadUrl(""+photoFile);
-                System.out.println("#2:" + loadImage(""+photoFile));
-                //imageView.setImageDrawable(R.drawable.ic_launcher);
                 Toast.makeText(MyActivity.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
             } catch(Exception e) {
                 System.out.println("adfadfadfadfa");
