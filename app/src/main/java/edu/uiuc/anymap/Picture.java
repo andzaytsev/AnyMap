@@ -1,6 +1,5 @@
 package edu.uiuc.anymap;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -16,12 +15,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.Queue;
 
 
 public class Picture extends Activity {
@@ -55,6 +56,10 @@ public class Picture extends Activity {
             }
         });
 
+
+        Button butOk = (Button)findViewById(R.id.button_ok);
+        Button butCan = (Button)findViewById(R.id.button_can);
+        butCan.setOnClickListener(canList);
 
         ContentResolver cr = getContentResolver();
         Bitmap bitmap;
