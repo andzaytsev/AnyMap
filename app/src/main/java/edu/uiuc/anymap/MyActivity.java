@@ -44,16 +44,17 @@ public class MyActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
-        locationManager = (LocationManager)
+
+/*        locationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
         locationListener = new MyLocationListener();
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         locationListener.locString = "Lat: " + location.getLatitude() +
                 "\nLng: " + location.getLongitude();
 
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+        /*locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 500, 10, locationListener);
-        Log.i("MyActivity", "teeheee");
+        Log.i("MyActivity", "teeheee");*/
         Button cameraButton = (Button)findViewById(R.id.button_camera);
         cameraButton.setOnClickListener(cameraListener);
     }
@@ -79,12 +80,6 @@ public class MyActivity extends Activity {
 
         }
     };
-    private OnClickListener imageListener = new OnClickListener() {
-        @Override
-        public void onClick(View view) {
-
-        }
-    };
 
     private void takePhoto(View v) {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
@@ -101,59 +96,15 @@ public class MyActivity extends Activity {
         super.onActivityResult(requestCode,resultCode, intent);
 
         if(resultCode == Activity.RESULT_OK) {
-            Uri selectedImage = imageUri;
-
-            System.out.println(imageUri);
-
-            ImageView imageView = (ImageView)findViewById(R.id.image_camera);
-
-            imageView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    float xc = event.getX(), yc = event.getY();
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MyActivity.this);
-                    builder.setTitle("Touched the image");
-                    builder.setMessage("X: " + xc + "\nY: " + yc);
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    builder.create().show();
-                    return true;
-                }
-            });
-
-
-            ContentResolver cr = getContentResolver();
-            Bitmap bitmap;
-
-            //Try saving the image
-            try{
-                bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage);
-                imageView.setImageBitmap(loadImage(photoFile.toString()));
-                Toast.makeText(MyActivity.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
-            } catch(Exception e) {
-                System.out.println("Caught an exception saving an image!");
-            }
+            Intent picture = new Intent(this, Picture.class);
+            picture.putExtra("file", photoFile);
+            picture.putExtra("Uri", imageUri);
+            startActivity(picture);
 
         }
     }
 
-    private Bitmap loadImage(String imgPath) {
-        BitmapFactory.Options options;
-        try {
-            options = new BitmapFactory.Options();
-            options.inSampleSize = 2;
-            Bitmap bitmap = BitmapFactory.decodeFile(imgPath, options);
-            return bitmap;
-        } catch(Exception e) {
-            System.out.println("errorrrr");
-            e.printStackTrace();
-        }
-        return null;
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
