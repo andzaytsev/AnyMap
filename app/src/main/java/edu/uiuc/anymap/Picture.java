@@ -36,25 +36,13 @@ public class Picture extends Activity {
         File photoFile = (File)myIntent.getExtras().get("file");
         Uri selectedImage = (Uri)myIntent.getExtras().get("Uri");
 
-
+        final ImageView imageView = (ImageView)findViewById(R.id.image_camera);
 
         System.out.println(selectedImage);
 
-        final ImageView imageView = (ImageView)findViewById(R.id.image_camera);
-        final ImageView imageLoc = (ImageView)findViewById(R.id.image_location);
 
-        imageView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                float xc = event.getX(), yc = event.getY();
-                RelativeLayout.LayoutParams params =
-                        new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.setMargins((int)xc, (int)yc, 0, 0);
-                imageLoc.setLayoutParams(params);
-                return true;
-            }
-        });
+
+        imageView.setOnTouchListener(imageTouch);
 
 
         Button butOk = (Button)findViewById(R.id.button_ok);
@@ -79,6 +67,22 @@ public class Picture extends Activity {
         @Override
         public void onClick(View view) {
             finish();
+        }
+    };
+
+    private View.OnTouchListener imageTouch = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+
+            final ImageView imageLoc = (ImageView)findViewById(R.id.image_location);
+
+            float xc = event.getX(), yc = event.getY();
+            RelativeLayout.LayoutParams params =
+                    new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins((int)xc, (int)yc, 0, 0);
+            imageLoc.setLayoutParams(params);
+            return true;
         }
     };
 
