@@ -76,6 +76,7 @@ public class MyActivity extends Activity {
         });
         builder.create().show();
     }
+
     private OnClickListener cameraListener = new OnClickListener () {
         public void onClick(View v) {
             takePhoto(v);

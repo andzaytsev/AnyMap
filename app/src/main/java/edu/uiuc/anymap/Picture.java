@@ -3,10 +3,13 @@ package edu.uiuc.anymap;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
@@ -27,16 +30,39 @@ import java.util.Queue;
 
 public class Picture extends Activity {
 
+    private Calculations calc;
+    private float xc, yc;
+    private MyLocationListener locationListener;
+    private LocationManager locationManager;
+    private Location location;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture);
+
+        //Location shit
+        locationManager = (LocationManager)
+                getSystemService(Context.LOCATION_SERVICE);
+        locationListener = new MyLocationListener();
+        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (location == null)
+            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        if (location != null)
+            locationListener.locString = "Lat: " + location.getLatitude() +
+                    "\nLng: " + location.getLongitude();
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                500, 10, locationListener);
+        //End location shit
 
         Intent myIntent = getIntent();
         File photoFile = (File)myIntent.getExtras().get("file");
         Uri selectedImage = (Uri)myIntent.getExtras().get("Uri");
 
         final ImageView imageView = (ImageView)findViewById(R.id.image_camera);
+
+        calc = new Calculations();
 
         System.out.println(selectedImage);
 
@@ -71,7 +97,7 @@ public class Picture extends Activity {
     private View.OnClickListener okList = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
+            calc.setPoint(new DoublePoint(xc, yc, (float)location.getLongitude(), (float)location.getLatitude()));
         }
     };
 
@@ -81,7 +107,7 @@ public class Picture extends Activity {
 
             final ImageView imageLoc = (ImageView)findViewById(R.id.image_location);
 
-            float xc = event.getX(), yc = event.getY();
+            xc = event.getX(); yc = event.getY();
             RelativeLayout.LayoutParams params =
                     new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT);
