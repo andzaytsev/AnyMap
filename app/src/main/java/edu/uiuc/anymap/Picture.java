@@ -75,6 +75,13 @@ public class Picture extends Activity {
         }
     }
 
+    private View.OnClickListener canList = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            finish();
+        }
+    };
+
     private Bitmap loadImage(String imgPath) {
         BitmapFactory.Options options;
         try {
