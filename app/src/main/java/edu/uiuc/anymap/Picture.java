@@ -70,6 +70,7 @@ public class Picture extends Activity {
 
 
         Button butOk = (Button)findViewById(R.id.button_ok);
+        butOk.setOnClickListener(okList);
         Button butCan = (Button)findViewById(R.id.button_can);
         butCan.setOnClickListener(canList);
 
@@ -98,6 +99,7 @@ public class Picture extends Activity {
         @Override
         public void onClick(View view) {
             calc.setPoint(new DoublePoint(xc, yc, (float)location.getLongitude(), (float)location.getLatitude()));
+            System.out.println("xc:" + xc + "-yc:" + yc + "-long:" + (float)location.getLongitude() + "-lat:" + (float)location.getLatitude());
         }
     };
 
