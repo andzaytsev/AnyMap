@@ -43,8 +43,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/image_location"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/loc" />
+        android:layout_centerHorizontal="true"/>
 
 
 </RelativeLayout>

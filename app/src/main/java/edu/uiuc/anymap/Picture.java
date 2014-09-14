@@ -30,11 +30,11 @@ public class Picture extends Activity {
 
         Intent myIntent = getIntent();
         File photoFile = (File)myIntent.getExtras().get("file");
-        Uri imageUri = (Uri)myIntent.getExtras().get("uri");
+        Uri selectedImage = (Uri)myIntent.getExtras().get("Uri");
 
-        Uri selectedImage = imageUri;
 
-        System.out.println(imageUri);
+
+        System.out.println(selectedImage);
 
         ImageView imageView = (ImageView)findViewById(R.id.image_camera);
 
@@ -60,10 +60,11 @@ public class Picture extends Activity {
         ContentResolver cr = getContentResolver();
         Bitmap bitmap;
 
+        System.out.println(selectedImage);
         //Try saving the image
         try{
             bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage);
-            //imageView.setImageBitmap(loadImage(photoFile.toString()));
+            imageView.setImageBitmap(loadImage(photoFile.toString()));
             Toast.makeText(Picture.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
         } catch(Exception e) {
             System.out.println("Caught an exception saving an image!");
