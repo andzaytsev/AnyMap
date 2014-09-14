@@ -47,13 +47,14 @@ public class MyActivity extends Activity {
         locationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
         locationListener = new MyLocationListener();
-        String provider = locationManager.getBestProvider(new Criteria(), false);
-        Location location = locationManager.getLastKnownLocation(provider);
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (location == null)
+            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         if (location != null)
             locationListener.locString = "Lat: " + location.getLatitude() +
                 "\nLng: " + location.getLongitude();
 
-        locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), false),
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 500, 10, locationListener);
         Log.i("MyActivity", "teeheee");
         Button cameraButton = (Button)findViewById(R.id.button_camera);
