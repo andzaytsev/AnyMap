@@ -5,9 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.content.ContentResolver;
@@ -21,10 +18,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.util.Log;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.lang.String;
@@ -44,17 +43,16 @@ public class MyActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
-
-/*        locationManager = (LocationManager)
+        locationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
         locationListener = new MyLocationListener();
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         locationListener.locString = "Lat: " + location.getLatitude() +
                 "\nLng: " + location.getLongitude();
 
-        /*locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 500, 10, locationListener);
-        Log.i("MyActivity", "teeheee");*/
+        Log.i("MyActivity", "teeheee");
         Button cameraButton = (Button)findViewById(R.id.button_camera);
         cameraButton.setOnClickListener(cameraListener);
     }
