@@ -37,6 +37,7 @@ public class Picture extends Activity {
     private Location location;
     private int counter = 2;
     private Button butOk;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +63,10 @@ public class Picture extends Activity {
         File photoFile = (File)myIntent.getExtras().get("file");
         Uri selectedImage = (Uri)myIntent.getExtras().get("Uri");
 
-        final ImageView imageView = (ImageView)findViewById(R.id.image_camera);
-
-        calc = new Calculations();
-
-        System.out.println(selectedImage);
-
+        imageView = (ImageView)findViewById(R.id.image_camera);
         imageView.setOnTouchListener(imageTouch);
 
+        calc = new Calculations();
 
         butOk = (Button)findViewById(R.id.button_ok);
         butOk.setOnClickListener(okList);
@@ -105,8 +102,10 @@ public class Picture extends Activity {
 
             if(--counter == 0) {
                 butOk.setEnabled(false);
+                imageView.setOnTouchListener(null);
             }
             butOk.setText("Ok(" + counter + ")");
+
         }
     };
 
