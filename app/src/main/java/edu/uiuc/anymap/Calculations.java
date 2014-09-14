@@ -19,6 +19,7 @@ public class Calculations {
      * @param x Point to edit
      */
     public void setPoint(DoublePoint x) {
+        //System.out.println("index:" + i);
         if (i == 1) p1 = x;
         else if (i == 2) p2 = x;
         else return;
@@ -27,6 +28,7 @@ public class Calculations {
 
     private void calculate() {
         double den = ((p2.x.y * p1.x.x) - (p2.x.x * p1.x.y));
+
         a = ((p1.xp.x * p2.x.y) - (p2.xp.x * p1.x.y))/den;
         b = ((p2.xp.x * p1.x.x) - (p1.xp.x * p2.x.x))/den;
         c = ((p1.xp.y * p2.x.y) - (p2.xp.y * p1.x.y))/den;

@@ -100,6 +100,12 @@ public class Picture extends Activity {
             calc.setPoint(new DoublePoint(location.getLongitude(), location.getLatitude(), xc, yc));
             System.out.println("xc:" + xc + "-yc:" + yc + "-long:" + location.getLongitude() + "-lat:" + location.getLatitude());
 
+           // if(ret != 0){
+           //     Toast.makeText(Picture.this, "Not enough distance; Please go further.", Toast.LENGTH_LONG).show();
+           //     return;
+           // }
+
+
             if(--counter == 0) {
                 butOk.setEnabled(false);
                 imageView.setOnTouchListener(null);

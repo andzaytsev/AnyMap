@@ -100,6 +100,7 @@ public class MyActivity extends Activity {
 
         if(resultCode == Activity.RESULT_OK) {
             Intent picture = new Intent(this, Picture.class);
+            picture.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             picture.putExtra("file", photoFile);
             picture.putExtra("Uri", imageUri);
             startActivity(picture);
