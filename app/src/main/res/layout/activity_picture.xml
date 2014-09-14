@@ -48,4 +48,13 @@
         android:layout_below="@+id/image_camera" />
 
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/loc"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="81dp" />
+
 </RelativeLayout>

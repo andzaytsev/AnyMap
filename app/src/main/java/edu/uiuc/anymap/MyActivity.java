@@ -44,7 +44,6 @@ public class MyActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
-        /*
 
         locationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
@@ -57,7 +56,7 @@ public class MyActivity extends Activity {
                 "\nLng: " + location.getLongitude();
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                500, 10, locationListener);*/
+                500, 10, locationListener);
 
         Log.i("MyActivity", "teeheee");
         Button cameraButton = (Button)findViewById(R.id.button_camera);
