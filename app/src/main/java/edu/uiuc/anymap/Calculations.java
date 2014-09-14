@@ -4,18 +4,44 @@ package edu.uiuc.anymap;
  * Created by KomIG on 9/13/14.
  */
 public class Calculations {
-    private static Point p1;
-    private static Point p2;
-    private static Point p3;
+    private static DoublePoint p1;
+    private static DoublePoint p2;
+
+    private static Point curPoint;
+
+    private float a, b, c, d;
 
     //Index of current point
-    public static int i;
+    public static int i = 0;
 
-    public void setPoint(int i, Point x){
-        if(i == 1) p1 = x;
-        else if(i==2) p2 = x;
-        else if(i==3) p3 = x;
+    /**
+     * Used to the points of our plane.
+     * @param x Point to edit
+     */
+    public void setPoint(DoublePoint x) {
+        if (i == 1) p1 = x;
+        else if (i == 2) p2 = x;
+        else return;
+        if(++i == 3) calculate();
     }
 
+    private void calculate() {
+        float den = ((p2.x.y * p1.x.x) - (p2.x.x * p1.x.y));
+        a = ((p1.xp.x * p2.x.y) - (p2.xp.x * p1.x.y))/den;
+        b = ((p2.xp.x * p1.x.x) - (p1.xp.x * p2.x.x))/den;
+        c = ((p1.xp.y * p2.x.y) - (p2.xp.y * p1.x.y))/den;
+        d = ((p2.xp.y * p1.x.x) - (p1.xp.y * p2.x.x))/den;
+    }
 
+    /**
+     * Takes in a GPS point and returns a point on the image.
+     * @param temp Point from the gps
+     * @return Point on the image
+     */
+    private Point updatePoint(Point temp) {
+        Point ret = new Point();
+        ret.x = a*temp.x + b*temp.y;
+        ret.y = c*temp.x + d*temp.y;
+        return ret;
+    }
 }
