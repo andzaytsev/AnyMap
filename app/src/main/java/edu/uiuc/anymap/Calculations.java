@@ -1,5 +1,7 @@
 package edu.uiuc.anymap;
 
+import android.widget.Toast;
+
 /**
  * Created by KomIG on 9/13/14.
  */
@@ -7,7 +9,7 @@ public class Calculations {
     private static DoublePoint p1;
     private static DoublePoint p2;
 
-    private float a, b, c, d;
+    private double a, b, c, d;
 
     //Index of current point
     public static int i = 1;
@@ -24,7 +26,7 @@ public class Calculations {
     }
 
     private void calculate() {
-        float den = ((p2.x.y * p1.x.x) - (p2.x.x * p1.x.y));
+        double den = ((p2.x.y * p1.x.x) - (p2.x.x * p1.x.y));
         a = ((p1.xp.x * p2.x.y) - (p2.xp.x * p1.x.y))/den;
         b = ((p2.xp.x * p1.x.x) - (p1.xp.x * p2.x.x))/den;
         c = ((p1.xp.y * p2.x.y) - (p2.xp.y * p1.x.y))/den;

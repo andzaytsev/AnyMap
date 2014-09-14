@@ -31,10 +31,12 @@ import java.util.Queue;
 public class Picture extends Activity {
 
     private Calculations calc;
-    private float xc, yc;
+    private double xc, yc;
     private MyLocationListener locationListener;
     private LocationManager locationManager;
     private Location location;
+    private int counter = 2;
+    private Button butOk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +71,7 @@ public class Picture extends Activity {
         imageView.setOnTouchListener(imageTouch);
 
 
-        Button butOk = (Button)findViewById(R.id.button_ok);
+        butOk = (Button)findViewById(R.id.button_ok);
         butOk.setOnClickListener(okList);
         Button butCan = (Button)findViewById(R.id.button_can);
         butCan.setOnClickListener(canList);
@@ -98,8 +100,13 @@ public class Picture extends Activity {
     private View.OnClickListener okList = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            calc.setPoint(new DoublePoint(xc, yc, (float)location.getLongitude(), (float)location.getLatitude()));
-            System.out.println("xc:" + xc + "-yc:" + yc + "-long:" + (float)location.getLongitude() + "-lat:" + (float)location.getLatitude());
+            calc.setPoint(new DoublePoint(location.getLongitude(), location.getLatitude(), xc, yc));
+            System.out.println("xc:" + xc + "-yc:" + yc + "-long:" + location.getLongitude() + "-lat:" + location.getLatitude());
+
+            if(--counter == 0) {
+                butOk.setEnabled(false);
+            }
+            butOk.setText("Ok(" + counter + ")");
         }
     };
 

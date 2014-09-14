@@ -7,7 +7,7 @@ public class DoublePoint {
     public static Point x;
     public static Point xp;
 
-    DoublePoint(float ax, float ay, float bx, float by) {
+    DoublePoint(double ax, double ay, double bx, double by) {
         x.x = ax;
         x.y = ay;
         xp.x = bx;
