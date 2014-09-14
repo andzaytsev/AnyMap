@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -124,20 +125,34 @@ public class MyActivity extends Activity {
                 }
             });
 
-            Drawable[] drawables = new Drawable[2];
-            LayerDrawable layerDrawable;
+
+            ContentResolver cr = getContentResolver();
+            Bitmap bitmap;
 
             //Try saving the image
             try{
-                drawables[0] = new BitmapDrawable(getResources(), photoFile.toString());
-                layerDrawable = new LayerDrawable(drawables);
-                imageView.setImageDrawable(layerDrawable);
+                bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage);
+                imageView.setImageBitmap(loadImage(photoFile.toString()));
                 Toast.makeText(MyActivity.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
             } catch(Exception e) {
                 System.out.println("Caught an exception saving an image!");
             }
 
         }
+    }
+
+    private Bitmap loadImage(String imgPath) {
+        BitmapFactory.Options options;
+        try {
+            options = new BitmapFactory.Options();
+            options.inSampleSize = 2;
+            Bitmap bitmap = BitmapFactory.decodeFile(imgPath, options);
+            return bitmap;
+        } catch(Exception e) {
+            System.out.println("errorrrr");
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
