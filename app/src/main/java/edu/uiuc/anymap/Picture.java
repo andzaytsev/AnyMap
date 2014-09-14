@@ -40,8 +40,6 @@ public class Picture extends Activity {
 
         System.out.println(selectedImage);
 
-
-
         imageView.setOnTouchListener(imageTouch);
 
 
@@ -67,6 +65,13 @@ public class Picture extends Activity {
         @Override
         public void onClick(View view) {
             finish();
+        }
+    };
+
+    private View.OnClickListener okList = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
         }
     };
 
