@@ -45,7 +45,7 @@ public class MyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
 
-        /*locationManager = (LocationManager)
+        locationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
         locationListener = new MyLocationListener();
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -56,7 +56,7 @@ public class MyActivity extends Activity {
                 "\nLng: " + location.getLongitude();
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                500, 10, locationListener);*/
+                500, 10, locationListener);
 
         Log.i("MyActivity", "teeheee");
         Button cameraButton = (Button)findViewById(R.id.button_camera);
@@ -68,8 +68,7 @@ public class MyActivity extends Activity {
         AlertDialog.Builder builder = new AlertDialog.Builder(MyActivity.this);
         builder.setTitle("My location");
         String locStr = locationListener.locString;
-        builder.setMessage(locStr + " und das ist " +
-                (locStr == null ? "nicht " : "") + "gut!");
+        builder.setMessage(locStr);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {}
