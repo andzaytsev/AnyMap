@@ -1,5 +1,6 @@
 package edu.uiuc.anymap;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -15,7 +16,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.io.File;
@@ -36,22 +39,18 @@ public class Picture extends Activity {
 
         System.out.println(selectedImage);
 
-        ImageView imageView = (ImageView)findViewById(R.id.image_camera);
+        final ImageView imageView = (ImageView)findViewById(R.id.image_camera);
+        final ImageView imageLoc = (ImageView)findViewById(R.id.image_location);
 
         imageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 float xc = event.getX(), yc = event.getY();
-                AlertDialog.Builder builder = new AlertDialog.Builder(Picture.this);
-                builder.setTitle("Touched the image");
-                builder.setMessage("X: " + xc + "\nY: " + yc);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                builder.create().show();
+                RelativeLayout.LayoutParams params =
+                        new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.setMargins((int)xc, (int)yc, 0, 0);
+                imageLoc.setLayoutParams(params);
                 return true;
             }
         });
