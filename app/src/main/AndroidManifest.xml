@@ -25,11 +25,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".picture"
-            android:label="@string/title_activity_picture" >
-        </activity>
-        <activity
             android:name=".Picture"
+            android:screenOrientation="portrait" >
             android:label="@string/title_activity_picture" >
         </activity>
     </application>
