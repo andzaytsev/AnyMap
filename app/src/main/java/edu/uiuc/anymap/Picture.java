@@ -15,10 +15,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.Queue;
 
 
 public class Picture extends Activity {
@@ -37,25 +39,11 @@ public class Picture extends Activity {
         System.out.println(selectedImage);
 
         ImageView imageView = (ImageView)findViewById(R.id.image_camera);
+        imageView.setOnTouchListener(imageTouch);
 
-        imageView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                float xc = event.getX(), yc = event.getY();
-                AlertDialog.Builder builder = new AlertDialog.Builder(Picture.this);
-                builder.setTitle("Touched the image");
-                builder.setMessage("X: " + xc + "\nY: " + yc);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                builder.create().show();
-                return true;
-            }
-        });
-
+        Button butOk = (Button)findViewById(R.id.button_ok);
+        Button butCan = (Button)findViewById(R.id.button_can);
+        butCan.setOnClickListener(canList);
 
         ContentResolver cr = getContentResolver();
         Bitmap bitmap;
@@ -70,6 +58,31 @@ public class Picture extends Activity {
             System.out.println("Caught an exception saving an image!");
         }
     }
+
+    private View.OnTouchListener imageTouch = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            float xc = event.getX(), yc = event.getY();
+            AlertDialog.Builder builder = new AlertDialog.Builder(Picture.this);
+            builder.setTitle("Touched the image");
+            builder.setMessage("X: " + xc + "\nY: " + yc);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            builder.create().show();
+            return true;
+        }
+    };
+
+    private View.OnClickListener canList = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            finish();
+        }
+    };
 
     private Bitmap loadImage(String imgPath) {
         BitmapFactory.Options options;
