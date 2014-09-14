@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.BitmapFactory;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.content.ContentResolver;
@@ -46,11 +47,13 @@ public class MyActivity extends Activity {
         locationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
         locationListener = new MyLocationListener();
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        locationListener.locString = "Lat: " + location.getLatitude() +
+        String provider = locationManager.getBestProvider(new Criteria(), false);
+        Location location = locationManager.getLastKnownLocation(provider);
+        if (location != null)
+            locationListener.locString = "Lat: " + location.getLatitude() +
                 "\nLng: " + location.getLongitude();
 
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+        locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), false),
                 500, 10, locationListener);
         Log.i("MyActivity", "teeheee");
         Button cameraButton = (Button)findViewById(R.id.button_camera);
@@ -66,9 +69,7 @@ public class MyActivity extends Activity {
                 (locStr == null ? "nicht " : "") + "gut!");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
+            public void onClick(DialogInterface dialog, int which) {}
         });
         builder.create().show();
     }
